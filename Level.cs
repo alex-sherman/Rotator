@@ -90,6 +90,26 @@ namespace Rotator
                     objective.Set(e => e.Position, new Vector2(0, 2850))
                 }
             });
+            Levels.Add(new Level()
+            {
+                RotateRate = 1 / 8f,
+                InitDatas = {
+                    player,
+                    enemy.Set(e => e.Position, new Vector2(0, 1300)),
+                    enemy.Set(e => e.Position, new Vector2(0, 1000)).Set(e => e.shootTimer, .3f),
+                    wall.Set(e => e.Bounds, new Rectangle(-50, -150, 100, 3000))
+                        .Set(e => e.Position, new Vector2(400, 0)),
+                    wall.Set(e => e.Bounds, new Rectangle(-50, -150, 100, 3000))
+                        .Set(e => e.Position, new Vector2(-400, 0)),
+                    wall.Set(e => e.Bounds, new Rectangle(-400, -50, 800, 100))
+                        .Set(e => e.Position, new Vector2(0, -150)),
+                    destroyable.Set(e => e.Bounds, new Rectangle(-400, -50, 800, 100))
+                        .Set(e => e.Position, new Vector2(0, 2600)),
+                    destroyable.Set(e => e.Bounds, new Rectangle(-400, -50, 800, 100))
+                        .Set(e => e.Position, new Vector2(0, 2450)),
+                    objective.Set(e => e.Position, new Vector2(0, 2850))
+                }
+            });
         }
     }
 }
