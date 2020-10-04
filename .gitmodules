@@ -1,0 +1,6 @@
+[submodule "Spectrum"]
+	path = Spectrum
+	url = http://github.com/alex-sherman/Spectrum
+[submodule "Replicate"]
+	path = Replicate
+	url = https://alex-sherman@github.com/alex-sherman/Replicate

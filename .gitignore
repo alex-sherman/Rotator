@@ -1,0 +1,8 @@
+*.cachefile
+*.zip
+*.mgfx
+*.vs
+bin
+obj
+packages/
+packages.config
