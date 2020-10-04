@@ -8,7 +8,6 @@ namespace Rotator
 {
     interface IDamage
     {
-        int TakeDamage(int damage);
-        int Health { get; }
+        void TakeDamage(int damage);
     }
 }

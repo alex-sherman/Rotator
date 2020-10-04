@@ -31,24 +31,11 @@ namespace Rotator
             layout.AddElement(new TextElement() { TextSource = () => RotatorPhysics.Now.ToString("0.00") });
             layout.Height = 1.0;
             layout.Width = 1.0;
-            var scene = layout.AddElement(new SceneScreen(camera));
+            var scene = layout.AddElement(new RotatorScene(camera));
             scene.AddElement(new DebugPrinter());
             camera.Position = new Vector2(0, 0);
             var manager = scene.Manager;
-            var player = manager.CreateEntity(new InitData<Player>(() => new Player()
-            {
-                Texture = ImageAsset.Blank,
-                Color = Color.Blue,
-                Bounds = new Rectangle(-100, -100, 200, 200),
-            }));
-            player.Camera = camera;
-            manager.CreateEntity(new InitData<Enemy>(() => new Enemy()
-            {
-                Texture = ImageAsset.Blank,
-                Color = Color.Red,
-                Bounds = new Rectangle(-100, -100, 200, 200),
-                Position = new Vector2(-500, -500),
-            }));
+            
             InputLayout.Default.Axes1["MoveHorizontal"] = new Axis1(new KeyboardAxis(Keys.D, Keys.A));
             InputLayout.Default.Axes1["MoveVertical"] = new Axis1(new KeyboardAxis(Keys.W, Keys.S));
             InputLayout.Default.Axes1["MoveHorizontal"].Axes.Add(new GamepadAxis(GamepadAxisType.LeftStickHorizontal));

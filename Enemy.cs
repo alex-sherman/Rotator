@@ -12,26 +12,40 @@ using System.Threading.Tasks;
 namespace Rotator
 {
     [LoadableType]
-    public class Enemy : GameObject2D
+    public class Enemy : GameObject2D, IDamage
     {
         Player target;
-        RotatorPhysics.Comp<Enemy> physics;
+        public RotatorPhysics.Comp<Enemy> Physics;
         [Replicate]
         public bool canShoot = false;
         [Replicate]
         public float shootPeriod = 1.5f;
         [Replicate]
         public float shootTimer = 0;
+
+        public int Health { get; set; }
+
         public Enemy()
         {
-            physics = new RotatorPhysics.Comp<Enemy>();
-            AddComponent(physics);
+            Physics = new RotatorPhysics.Comp<Enemy>();
+            AddComponent(Physics);
         }
         public override void Initialize()
         {
             base.Initialize();
             target = Manager.Select(e => e as Player).Where(e => e != null).First();
+            Physics.OnEvent += Physics_OnEvent;
         }
+
+        private void Physics_OnEvent(RotatorPhysics.Comp<Enemy>.EventData eventData)
+        {
+            if (eventData.Type == "Shoot")
+            {
+                shootTimer = shootPeriod;
+                eventData.Cause.Destroy();
+            }
+        }
+
         public override void Draw(float gameTime)
         {
             base.Draw(gameTime);
@@ -46,21 +60,25 @@ namespace Rotator
         public override void Update(float dt)
         {
             base.Update(dt);
-            if (!canShoot)
-            {
-                shootTimer += physics.DT(dt);
-            }
+            shootTimer += Physics.DT(dt);
             if (shootTimer < 0) shootTimer = 0;
-            if (shootTimer >= shootPeriod) canShoot = true;
-            if (physics.CanUpdate)
+            if (shootTimer >= shootPeriod) { canShoot = true; shootTimer = shootPeriod; }
+            if (Physics.CanUpdate)
             {
                 if (canShoot)
                 {
-                    Bullet.Shoot(Position, (target.Position - Position).Normal() * 1000, this);
+                    var bullet = Bullet.Shoot(Position, (target.Position - Position).Normal(), this);
+                    Physics.RecordEvent("Shoot", bullet);
                     canShoot = false;
                     shootTimer = 0;
                 }
             }
+        }
+
+        public void TakeDamage(int damage)
+        {
+            Health -= damage;
+            if (Health <= 0) { Health = 0; Physics.RecordEvent("Destroy"); }
         }
     }
 }

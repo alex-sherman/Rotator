@@ -41,11 +41,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bullet.cs" />
+    <Compile Include="Destroyable.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="IDamage.cs" />
+    <Compile Include="Level.cs" />
+    <Compile Include="Objective.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="RotatorGame.cs" />
     <Compile Include="RotatorPhysics.cs" />
+    <Compile Include="RotatorScene.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Replicate\Replicate\Replicate.csproj">
